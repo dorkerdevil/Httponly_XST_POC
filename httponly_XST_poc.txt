@@ -1,3 +1,6 @@
+#By Ashish Kunwar aka Dorker Devil
+#XST payloads to exploit HTTPONLY FLAG
+
 httponly_XST Payload =>1
 
 <script type=”text/javascript”> 

